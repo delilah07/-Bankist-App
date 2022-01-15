@@ -71,9 +71,12 @@ const createUsernames = function (accs) {
 createUsernames(accounts);
 
 // Display movements
-const displayMovements = movements => {
+const displayMovements = (movements, sort = false) => {
   containerMovements.innerHTML = '';
-  movements.forEach((mov, i) => {
+
+  const movSort = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movSort.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
       <div class="movements__row">
@@ -203,4 +206,12 @@ btnClose.addEventListener('click', e => {
   }
   inputCloseUsername.value = inputClosePin.value = '';
   labelWelcome.textContent = 'Log in to get started';
+});
+
+// sort
+let sorted = false;
+btnSort.addEventListener('click', e => {
+  e.preventDefault();
+  displayMovements(currentAcoount.movements, !sorted);
+  sorted = !sorted;
 });
